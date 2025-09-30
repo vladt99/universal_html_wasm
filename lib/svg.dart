@@ -15,7 +15,6 @@
 /// Cross-platform "dart:svg" library.
 library universal_html.svg;
 
-export 'src/_sdk/svg.dart'
-    if (dart.library.svg) 'src/_sdk/svg.dart' // Browser
-    if (dart.library.io) 'src/svg.dart' // VM
-    if (dart.library.js) 'src/svg.dart'; // Node.JS
+export 'src/svg.dart'
+    if (dart.library.svg) 'src/_sdk/svg.dart' // Browser (JS only)
+    if (dart.library.io) 'src/svg.dart'; // VM

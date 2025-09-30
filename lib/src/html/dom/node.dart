@@ -605,7 +605,7 @@ mixin _ChildNode implements ChildNode {
   void remove();
 }
 
-class _ChildNodeIterator extends Iterator<Node> {
+class _ChildNodeIterator implements Iterator<Node> {
   final Node _parent;
   Node? _current;
 

@@ -15,6 +15,6 @@
 /// Cross-platform "dart:js_util" library.
 library universal_html.js_util;
 
-export 'src/_sdk/js_util.dart'
-    if (dart.library.js_util) 'src/_sdk/js_util.dart' // Browser, Node.JS
+export 'src/js_util.dart'
+    if (dart.library.js_util) 'src/_sdk/js_util.dart' // Browser (JS only), Node.JS
     if (dart.library.io) 'src/js_util.dart'; // VM

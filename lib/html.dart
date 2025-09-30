@@ -33,7 +33,6 @@
 /// For information on writing web apps with Dart, see https://webdev.dartlang.org.
 library universal_html;
 
-export 'src/_sdk/html.dart'
-    if (dart.library.html) 'src/_sdk/html.dart' // Browser
-    if (dart.library.io) 'src/html.dart' // VM
-    if (dart.library.js) 'src/html.dart'; // Node.JS
+export 'src/html.dart'
+    if (dart.library.html) 'src/_sdk/html.dart' // Browser (JS only)
+    if (dart.library.io) 'src/html.dart'; // VM

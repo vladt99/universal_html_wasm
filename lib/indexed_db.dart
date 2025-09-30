@@ -15,7 +15,6 @@
 /// Cross-platform "dart:indexed_db" library.
 library universal_html.indexed_db;
 
-export 'src/_sdk/indexed_db.dart'
-    if (dart.library.indexed_db) 'src/_sdk/indexed_db.dart' // Browser
-    if (dart.library.io) 'src/indexed_db.dart' // VM
-    if (dart.library.js) 'src/indexed_db.dart'; // Node.JS
+export 'src/indexed_db.dart'
+    if (dart.library.indexed_db) 'src/_sdk/indexed_db.dart' // Browser (JS only)
+    if (dart.library.io) 'src/indexed_db.dart'; // VM

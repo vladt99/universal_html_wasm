@@ -46,7 +46,7 @@ The source code adopted from 'dart:html' had the following license:
 
 part of universal_html.internal;
 
-abstract class GlobalEventHandlers implements EventTarget {
+abstract mixin class GlobalEventHandlers implements EventTarget {
   static const EventStreamProvider<Event> abortEvent =
       EventStreamProvider<Event>('abort');
 

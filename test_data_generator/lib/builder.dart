@@ -26,8 +26,10 @@ class InfoBuilder implements Builder {
     for (var libraryName in html.keys.toList()..sort()) {
       result.writeln("  '$libraryName': <String,Object?>{");
       final library = html[libraryName];
-      for (var apiName in (library as Map<String, Object>).keys) {
-        result.writeln("    '$apiName': null,");
+      if (library is Map) {
+        for (var apiName in library.keys) {
+          result.writeln("    '$apiName': null,");
+        }
       }
       result.writeln('  },');
     }
@@ -94,9 +96,6 @@ class InfoBuilder implements Builder {
       } else {
         for (var member in constructors) {
           if (member.isPrivate ||
-              member.hasDeprecated ||
-              member.hasVisibleForTesting ||
-              member.hasVisibleForTemplate ||
               member.name.startsWith('internal')) {
             continue;
           }
@@ -129,9 +128,6 @@ class InfoBuilder implements Builder {
     for (var member in classElement.accessors) {
       if ((isInherited && member.isStatic) ||
           member.isPrivate ||
-          member.hasDeprecated ||
-          member.hasVisibleForTesting ||
-          member.hasVisibleForTemplate ||
           _ignoredMembers.contains(member.name) ||
           member.name.startsWith('internal')) {
         continue;
@@ -153,39 +149,48 @@ class InfoBuilder implements Builder {
     // Inherited members
     // -----------------
     final superType = classElement.supertype;
-    if (superType != null) {
+    if (superType != null && superType.element is ClassElement) {
       _addClassMembers(
         result,
         className,
-        classElement: superType.element,
+        classElement: superType.element as ClassElement,
         isInherited: true,
       );
     }
     for (var type in classElement.mixins) {
-      _addClassMembers(
-        result,
-        className,
-        classElement: type.element,
-        isInherited: true,
-      );
+      if (type.element is ClassElement) {
+        _addClassMembers(
+          result,
+          className,
+          classElement: type.element as ClassElement,
+          isInherited: true,
+        );
+      }
     }
     for (var type in classElement.interfaces) {
-      _addClassMembers(
-        result,
-        className,
-        classElement: type.element,
-        isInherited: true,
-      );
+      if (type.element is ClassElement) {
+        _addClassMembers(
+          result,
+          className,
+          classElement: type.element as ClassElement,
+          isInherited: true,
+        );
+      }
     }
   }
 
   static bool _isIgnoredClassMember(
-      ClassMemberElement member, bool isInherited) {
-    return (isInherited && member.isStatic) ||
-        member.isPrivate ||
-        member.hasDeprecated ||
-        member.hasVisibleForTesting ||
-        member.hasVisibleForTemplate ||
+      Element member, bool isInherited) {
+    if (member is PropertyAccessorElement && isInherited && member.isStatic) {
+      return true;
+    }
+    if (member is MethodElement && isInherited && member.isStatic) {
+      return true;
+    }
+    if (member is FieldElement && isInherited && member.isStatic) {
+      return true;
+    }
+    return member.isPrivate ||
         _ignoredMembers.contains(member.name) ||
         member.name!.startsWith('internal');
   }

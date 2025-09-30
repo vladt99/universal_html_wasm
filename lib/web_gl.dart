@@ -15,7 +15,6 @@
 /// Cross-platform "dart:web_gl" library.
 library universal_html.web_gl;
 
-export 'src/_sdk/web_gl.dart'
-    if (dart.library.web_gl) 'src/_sdk/web_gl.dart' // Browser
-    if (dart.library.io) 'src/web_gl.dart' // VM
-    if (dart.library.js) 'src/web_gl.dart'; // Node.JS
+export 'src/web_gl.dart'
+    if (dart.library.web_gl) 'src/_sdk/web_gl.dart' // Browser (JS only)
+    if (dart.library.io) 'src/web_gl.dart'; // VM

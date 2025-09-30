@@ -125,7 +125,7 @@ class _ElementChildren extends ListBase<Element> {
   }
 }
 
-class _ElementIterator extends Iterator<Element> {
+class _ElementIterator implements Iterator<Element> {
   final _ElementOrDocument _parent;
   Element? _current;
 

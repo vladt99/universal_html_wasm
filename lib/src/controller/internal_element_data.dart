@@ -15,7 +15,8 @@
 import 'package:universal_html/html.dart';
 
 import 'internal_element_data_impl_others.dart'
-    if (dart.library.html) 'internal_element_data_impl_browser.dart' as impl;
+    if (dart.library.html) 'internal_element_data_impl_browser.dart' // Browser (JS only)
+    if (dart.library.io) 'internal_element_data_impl_others.dart' as impl; // VM
 
 /// Internal data of [Element].
 ///
@@ -40,6 +41,6 @@ class InternalElementData {
   ///
   /// Throws [StateError] in browsers.
   static InternalElementData of(Element element) {
-    return impl.ofElement(element as impl.Element);
+    return impl.ofElement(element);
   }
 }
